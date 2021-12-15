@@ -71,6 +71,7 @@
 ## Table of Contents
 
 - [Overview](#overview)
+- [Features](#features)
 - [Quick Start](#quick-start)
 - [Supported Operating Systems](#supported-operating-systems)
 - [Dependencies](#dependencies)
@@ -87,6 +88,21 @@
 ## Overview
 
 This repository is the home of an [Ansible](https://www.ansible.com/) role that installs Homebrew (a package management system) on macOS and Linux systems. [Homebrew](https://brew.sh/) is a free and open-source software package management system that simplifies the installation of software on Apple's operating system macOS as well as Linux. The name is intended to suggest the idea of building software on the Mac depending on the user's taste.
+
+<a href="#features" style="width:100%"><img style="width:100%" src="https://gitlab.com/megabyte-labs/assets/-/raw/master/png/aqua-divider.png" /></a>
+
+## Features
+
+**Ensures Homebrew is installed:**
+
+- Checks to make sure Homebrew is not already installed
+- Installs Homebrew on macOS and Linux
+- Ensures the `.bashrc` file correctly adds Homebrew to the `PATH` variable
+
+**Installs Homebrew packages:**
+
+- Installs a configurable list of Homebrew packages (via the `homebrew_packages` variable)
+- Installs a configurable list of Homebrew casks on macOS (via the `homebrew_casks` variable)
 
 <a href="#quick-start" style="width:100%"><img style="width:100%" src="https://gitlab.com/megabyte-labs/assets/-/raw/master/png/aqua-divider.png" /></a>
 
