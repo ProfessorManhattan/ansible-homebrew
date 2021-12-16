@@ -92,7 +92,7 @@ tasks:
               --homepage "{{.HOMEPAGE}}" {{.PROJECT_TYPE}} > /dev/null
             .config/log success 'Created a GitHub repository for {{.GITHUB_SLUG}}'
             git add --all
-            SKIP=prepare-commit-msg git commit -m "🎂 Birth" --no-verify
+            git commit -m "🎂 Birth" -n
             git push github master
           fi
         ignore_error: true
@@ -119,6 +119,12 @@ tasks:
         mv "$TMP" package.json
 
   github:update:
+    deps:
+      - github:create
+    cmds:
+      - task: github:update:continue
+
+  github:update:continue:
     deps:
       - github:update:meta
       - github:ids
@@ -246,7 +252,7 @@ tasks:
               --description '{{.EMOJI_START}}{{.DESCRIPTION}}{{.EMOJI_END}}' --name '{{.NAME}}' \
               {{.PROJECT_TYPE}} --tag "$KEYWORDS"
             git add --all
-            SKIP=prepare-commit-msg git commit -m "🎂 Birth" --no-verify
+            git commit -m "🎂 Birth" -n
             git push gitlab master
           fi
         ignore_error: true
@@ -312,9 +318,6 @@ tasks:
             glab api projects/:fullpath/remote_mirrors --method POST --header "Content-Type: application/json" \
               -f "url=https://{{.GITHUB_USER}}:$GITHUB_TOKEN@github.com/{{.GITHUB_ORG}}/{{.GITHUB_SLUG}}.git" \
               -f 'enabled=true' > /dev/null
-            glab api projects/:fullpath/remote_mirrors --method POST --header "Content-Type: application/json" \
-              -f "url=https://root:$GITHUB_TOKEN@github.com/{{.GITHUB_ORG}}/{{.GITHUB_SLUG}}.git" \
-              -f 'enabled=true' > /dev/null
           fi
           curl -s -H 'Content-Type: application/json' -H "Authorization: Bearer $GITLAB_TOKEN" -X PUT --data \
             "{\"mirror\": true, \"import_url\": \"https://{{.GITHUB_USER}}:$GITHUB_TOKEN@github.com/{{.GITHUB_ORG}}/{{.GITHUB_SLUG}}.git\"}" \
@@ -373,6 +376,12 @@ tasks:
         msg: The `GITLAB_TOKEN` environment variable must be set to run this task
 
   gitlab:update:
+    deps:
+      - gitlab:create
+    cmds:
+      - task: gitlab:update:continue
+
+  gitlab:update:continue:
     deps:
       - gitlab:branches
       - gitlab:mirror
@@ -452,6 +461,7 @@ tasks:
         msg: The `.group` variable in `.variables.json` must be set.
 
   remotes:
+    run: once
     deps:
       - :install:software:git
       - :install:software:jq
@@ -470,7 +480,6 @@ tasks:
         sh: jq -r '.blueprint.repository.github' package.json | sed 's/^https:\/\//git@/' | sed 's/github.com\//github.com:/'
       GITLAB_REPO:
         sh: jq -r '.blueprint.repository.gitlab' package.json | sed 's/^https:\/\//git@/' | sed 's/gitlab.com\//gitlab.com:/'
-    run: once
     cmds:
       - git init
       - |

@@ -1,6 +1,7 @@
+import chalk from 'chalk'
 import inquirer from 'inquirer'
 import { execSync } from 'node:child_process'
-import { info, logInstructions } from '../lib/log.js'
+import { info, logInstructions, LOG_DECORATOR_REGEX } from '../lib/log.js'
 
 /**
  * Prompts the user for details required for provisioning via SSH
@@ -10,27 +11,27 @@ import { info, logInstructions } from '../lib/log.js'
 async function promptForSSHDetails() {
   const response = await inquirer.prompt([
     {
-      message: "What is the target's IP address or FQDN?",
+      message: 'What is the target\'s IP address or FQDN?',
       name: 'host',
       type: 'input'
     },
     {
-      default: 'ansible',
       message: 'What is the username of a user that has both sudo privileges and SSH?',
       name: 'user',
-      type: 'input'
+      type: 'input',
+      default: 'ansible'
     },
     {
-      default: 'ansible',
-      message: "What is the user's sudo password?",
+      message: 'What is the user\'s sudo password?',
       name: 'password',
-      type: 'password'
+      type: 'password',
+      default: 'ansible'
     },
     {
-      default: '22',
       message: 'What port should the SSH connection be made over?',
       name: 'port',
-      type: 'input'
+      type: 'input',
+      default: '22'
     }
   ])
   info('SSH connection details acquired')
@@ -50,11 +51,8 @@ async function run() {
       ' via SSH (i.e. the ~/.ssh keys should already be set up).'
   )
   const details = await promptForSSHDetails()
-  execSync(
-    `TEST_HOST=${details.host} TEST_PASSWORD=${details.password} TEST_PORT=${details.port}
-    TEST_SSH_USER=${details.user} TEST_USER=${details.user} task ansible:test:molecule:ssh:cli`,
-    { stdio: 'inherit' }
-  )
+  execSync(`TEST_HOST=${details.host} TEST_PASSWORD=${details.password} TEST_PORT=${details.port}
+    TEST_SSH_USER=${details.user} TEST_USER=${details.user} task ansible:test:molecule:ssh:cli`, { stdio: 'inherit' })
 }
 
 run()
