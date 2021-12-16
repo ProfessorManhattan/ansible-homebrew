@@ -201,6 +201,7 @@ tasks:
     status:
       - type container-structure-test > /dev/null
 
+
   container-structure-test:windows:
     cmds:
       - .config/log error "Windows is not supported. Try using a Windows WSL environment."
@@ -281,19 +282,19 @@ tasks:
         vars:
           FORMULAE: glab
 
-  go:
-    run: once
-    cmds:
-      - task: brew:formulae
-        vars:
-          FORMULAE: go
-
   grype:
     run: once
     cmds:
       - task: brew:formulae
         vars:
           FORMULAE: anchore/grype/grype
+
+  go:
+    run: once
+    cmds:
+      - task: brew:formulae
+        vars:
+          FORMULAE: go
 
   jq:
     run: once

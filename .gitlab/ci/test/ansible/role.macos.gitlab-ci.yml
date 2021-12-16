@@ -2,6 +2,8 @@
 test:molecule:darwin:
   stage: test
   image: macos-11-xcode-12
+  tags:
+    - shared-macos-amd64
   rules:
     - if: $DO_CI == 'false'
       when: never
@@ -18,7 +20,5 @@ test:molecule:darwin:
         - poetry.lock
         - pyproject.toml
         - requirements.yml
-  tags:
-    - shared-macos-amd64
   script:
     - bash test/darwin/test.sh

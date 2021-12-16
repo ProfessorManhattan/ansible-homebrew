@@ -68,7 +68,7 @@
   },
   "blueprint": {
     "description": "Installs Homebrew (a package management system) on macOS and Linux systems",
-    "github_id": "R_kgDOGiX7Qg",
+    "github_id": "",
     "gitlab_group_id": "12261670",
     "gitlab_project_id": "32156841",
     "group": "ansible",

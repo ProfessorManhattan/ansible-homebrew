@@ -1,6 +1,10 @@
 ---
 test:molecule:windows:
   stage: test
+  tags:
+    - shared-windows
+    - windows
+    - windows-1809
   allow_failure: true
   rules:
     - if: $DO_CI == 'false'
@@ -16,9 +20,5 @@ test:molecule:windows:
         - main.yml
   variables:
     GIT_DEPTH: 1
-  tags:
-    - shared-windows
-    - windows
-    - windows-1809
   script:
     - set -eo pipefail
