@@ -10,34 +10,34 @@ galaxy_info:
   license: license (MIT)
   min_ansible_version: 2.1
   platforms:
-  - name: Ubuntu
-    versions:
-    - bionic
-    - focal
-    - hirsute
-    - impish
-  - name: Windows
-    versions:
-    - all
+    - name: Ubuntu
+      versions:
+        - bionic
+        - focal
+        - hirsute
+        - impish
+    - name: Windows
+      versions:
+        - all
   galaxy_tags:
-  - ansible
-  - automated
-  - brew
-  - debian
-  - doctor
-  - fedora
-  - homebrew
-  - install
-  - installdoc
-  - installdoctor
-  - linux
-  - macos
-  - mblabs
-  - megabytelabs
-  - molecule
-  - professormanhattan
-  - role
-  - ubuntu
-  - washingtondc
-  - windows
+    - ansible
+    - automated
+    - brew
+    - debian
+    - doctor
+    - fedora
+    - homebrew
+    - install
+    - installdoc
+    - installdoctor
+    - linux
+    - macos
+    - mblabs
+    - megabytelabs
+    - molecule
+    - professormanhattan
+    - role
+    - ubuntu
+    - washingtondc
+    - windows
 dependencies: []

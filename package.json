@@ -74,6 +74,7 @@
     "access": "public"
   },
   "blueprint": {
+    "ansible_galaxy_project_id": "57302",
     "description": "Installs Homebrew (a package management system) on macOS and Linux systems",
     "github_id": "R_kgDOGiko8w",
     "gitlab_group_id": "12261670",
@@ -87,8 +88,7 @@
     },
     "slug": "homebrew",
     "subgroup": "role",
-    "title": "Homebrew - A Package Manager for macOS/Linux",
-    "ansible_galaxy_project_id": "57302"
+    "title": "Homebrew - A Package Manager for macOS/Linux"
   },
   "changelog": {
     "displayTypes": [
