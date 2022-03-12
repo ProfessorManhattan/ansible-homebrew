@@ -22,3 +22,11 @@ husky
 jq
 jq
 yq
+jq
+yq
+git-cz
+jq
+commitlint
+husky
+jq
+yq
