@@ -6,3 +6,11 @@ install:npm:husky
 install:software:jq
 install:software:yq
 install:software:jq
+install:software:yq
+install:software:jq
+install:npm:commitizen
+install:npm:husky
+install:software:jq
+install:npm:commitlint
+install:software:yq
+install:software:jq

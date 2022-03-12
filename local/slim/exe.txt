@@ -6,3 +6,11 @@ husky
 jq
 yq
 jq
+yq
+jq
+git-cz
+husky
+jq
+commitlint
+yq
+jq
