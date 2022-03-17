@@ -228,3 +228,4 @@ install:npm:commitizen
 install:npm:husky
 install:npm:commitlint
 install:software:yq
+install:software:glab
