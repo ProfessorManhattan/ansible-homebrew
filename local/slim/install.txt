@@ -224,3 +224,7 @@ install:npm:commitlint
 install:npm:commitizen
 install:software:yq
 install:software:yq
+install:npm:commitizen
+install:npm:husky
+install:npm:commitlint
+install:software:yq
