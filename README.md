@@ -1,6 +1,6 @@
 <!-- ⚠️ This README has been generated from the file(s) ".config/docs/blueprint-readme-role.md" ⚠️--><div align="center">
   <center>
-    <a href="https://github.com/ProfessorManhattan/ansible-homebrew">
+    <a href="https://github.com/megabyte-labs/ansible-homebrew">
       <img width="148" height="148" alt="Homebrew logo" src="https://gitlab.com/megabyte-labs/ansible-roles/homebrew/-/raw/master/logo.png" />
     </a>
   </center>
@@ -14,13 +14,13 @@
   <a href="https://megabyte.space" title="Megabyte Labs homepage" target="_blank">
     <img alt="Homepage" src="https://img.shields.io/website?down_color=%23FF4136&down_message=Down&label=Homepage&logo=home-assistant&logoColor=white&up_color=%232ECC40&up_message=Up&url=https%3A%2F%2Fmegabyte.space&style=for-the-badge" />
   </a>
-  <a href="https://github.com/ProfessorManhattan/ansible-homebrew/blob/master/docs/CONTRIBUTING.md" title="Learn about contributing" target="_blank">
+  <a href="https://github.com/megabyte-labs/ansible-homebrew/blob/master/docs/CONTRIBUTING.md" title="Learn about contributing" target="_blank">
     <img alt="Contributing" src="https://img.shields.io/badge/Contributing-Guide-0074D9?logo=github-sponsors&logoColor=white&style=for-the-badge" />
   </a>
   <a href="https://app.slack.com/client/T01ABCG4NK1/C01NN74H0LW/details/" title="Chat with us on Slack" target="_blank">
     <img alt="Slack" src="https://img.shields.io/badge/Slack-Chat-e01e5a?logo=slack&logoColor=white&style=for-the-badge" />
   </a>
-  <a href="https://github.com/ProfessorManhattan/ansible-homebrew" title="GitHub mirror" target="_blank">
+  <a href="https://github.com/megabyte-labs/ansible-homebrew" title="GitHub mirror" target="_blank">
     <img alt="GitHub" src="https://img.shields.io/badge/Mirror-GitHub-333333?logo=github&style=for-the-badge" />
   </a>
   <a href="https://gitlab.com/megabyte-labs/ansible-roles/homebrew" title="GitLab repository" target="_blank">
@@ -32,13 +32,13 @@
   <a title="Ansible Galaxy role: professormanhattan.homebrew" href="https://galaxy.ansible.com/professormanhattan/homebrew" target="_blank">
     <img alt="Ansible Galaxy role: professormanhattan.homebrew" src="https://img.shields.io/ansible/role/57302?logo=ansible&style=flat-square" />
   </a>
-  <a title="Version: 1.0.0" href="https://github.com/ProfessorManhattan/ansible-homebrew" target="_blank">
+  <a title="Version: 1.0.0" href="https://github.com/megabyte-labs/ansible-homebrew" target="_blank">
     <img alt="Version: 1.0.0" src="https://img.shields.io/badge/version-1.0.0-blue.svg?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgAQMAAABJtOi3AAAABlBMVEUAAAD///+l2Z/dAAAAAXRSTlMAQObYZgAAACNJREFUCNdjIACY//+BEp9hhM3hAzYQwoBIAqEDYQrCZLwAAGlFKxU1nF9cAAAAAElFTkSuQmCC&cacheSeconds=2592000&style=flat-square" />
   </a>
   <a title="GitLab build status" href="https://gitlab.com/megabyte-labs/ansible-roles/homebrew/-/commits/master" target="_blank">
     <img alt="Build status" src="https://img.shields.io/gitlab/pipeline-status/megabyte-labs/ansible-roles/homebrew?branch=master&label=build&logo=gitlab&logoColor=white&style=flat-square">
   </a>
-  <a title="Windows 11 test status on GitHub" href="https://github.com/ProfessorManhattan/ansible-homebrew/actions/workflows/Windows.yml" target="_blank">
+  <a title="Windows 11 test status on GitHub" href="https://github.com/megabyte-labs/ansible-homebrew/actions/workflows/Windows.yml" target="_blank">
     <img alt="Windows 11 test status" src="https://img.shields.io/github/workflow/status/ProfessorManhattan/ansible-homebrew/Windows%20Ansible%20Role%20Test/master?color=cyan&label=windows&logo=windows&style=flat-square">
   </a>
   <a title="macOS test status on GitLab" href="https://gitlab.com/megabyte-labs/ansible-roles/homebrew/-/commits/master" target="_blank">
@@ -56,7 +56,7 @@
   <a title="Documentation" href="https://megabyte.space/docs/ansible" target="_blank">
     <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg?logo=readthedocs&logoColor=white&style=flat-square" />
   </a>
-  <a title="License: MIT" href="https://github.com/ProfessorManhattan/ansible-homebrew/blob/master/LICENSE" target="_blank">
+  <a title="License: MIT" href="https://github.com/megabyte-labs/ansible-homebrew/blob/master/LICENSE" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-yellow.svg?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgAQMAAABJtOi3AAAABlBMVEUAAAD///+l2Z/dAAAAAXRSTlMAQObYZgAAAHpJREFUCNdjYOD/wMDAUP+PgYHxhzwDA/MB5gMM7AwMDxj4GBgKGGQYGCyAEEgbMDDwAAWAwmk8958xpIOI5zKH2RmOyhxmZjguAiKmgIgtQOIYmFgCIp4AlaQ9OczGkJYCJEAGgI0CGwo2HmwR2Eqw5SBnNIAdBHYaAJb6KLM15W/CAAAAAElFTkSuQmCC&style=flat-square" />
   </a>
 </div>
@@ -229,7 +229,7 @@ You can find an example of a playbook that incorporates this role in our main pl
 
 ## Contributing
 
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/ProfessorManhattan/ansible-homebrew/issues). If you would like to contribute, please take a look at the [contributing guide](https://github.com/ProfessorManhattan/ansible-homebrew/blob/master/docs/CONTRIBUTING.md).
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/megabyte-labs/ansible-homebrew/issues). If you would like to contribute, please take a look at the [contributing guide](https://github.com/megabyte-labs/ansible-homebrew/blob/master/docs/CONTRIBUTING.md).
 
 <details>
 <summary><b>Sponsorship</b></summary>
