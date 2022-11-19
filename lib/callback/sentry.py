@@ -6,26 +6,21 @@ import logging
 import logging.config
 import os
 import socket
-
-try:
-     from raven import setup_logging, Client
-     from raven.handlers.logging import SentryHandler
-     HAS_RAVEN = True
-except ImportError:
-     HAS_RAVEN = False
+import sentry_sdk
 
 from ansible.plugins.callback import CallbackBase
 
-
 class CallbackModule(CallbackBase):
     """
-    Ansible sentry callback plugin based on the logstash callback plugin
+    Ansible Sentry callback plugin.
+    Modified version of https://gist.github.com/fliphess/7f6dd322388054dd1dcc07f55b1034db#file-sentry-py-L13
+    Updated to use the latest Sentry SDK.
     ansible.cfg:
         callback_plugins   = <path_to_callback_plugins_folder>
         callback_whitelist = sentry
     and put the plugin in <path_to_callback_plugins_folder>
     Requires:
-        python-raven
+        sentry_sdk
     This plugin makes use of the following environment variables:
         SENTRY_DSN        (required): The full private DSN
     """
@@ -36,79 +31,98 @@ class CallbackModule(CallbackBase):
     CALLBACK_NEEDS_WHITELIST = True
 
     SENTRY_DSN = os.getenv('SENTRY_DSN')
-    SENTRY_LOGGING = {
-        'version': 1,
-        'disable_existing_loggers': True,
-        'handlers': {
-            'sentry': {
-                'level': 'ERROR',
-                'class': 'raven.handlers.logging.SentryHandler',
-                'dsn': SENTRY_DSN,
-            },
-        },
-        'loggers': {
-            'ansible-sentry': {
-                'level': 'DEBUG',
-                'propagate': True,
-            },
-        }
-    }
 
     def __init__(self):
         super(CallbackModule, self).__init__()
 
-        if not self.SENTRY_DSN or not HAS_RAVEN:
+        if not self.SENTRY_DSN:
             self._disable_plugin()
         else:
             self.client = self._load_sentry_client()
-            self.logger = self._setup_logging()
-
-    def _setup_logging(self):
-        logging.config.dictConfig(self.SENTRY_LOGGING)
-        return logging.getLogger(name='ansible-sentry')
 
     def _load_sentry_client(self):
-        client = Client(self.SENTRY_DSN)
-        setup_logging(handler=SentryHandler(client))
+        client = sentry_sdk.init(
+          dsn=self.SENTRY_DSN,
+          release="1.0.0",
+          debug=False
+        )
         return client
 
     def _disable_plugin(self):
         self.disabled = True
         self._display.warning(
-            "python-raven package or SENTRY_DSN environment variable not found, plugin %s disabled" % os.path.basename(__file__))
+            "The SENTRY_DSN environment variable was not found, plugin %s disabled" % os.path.basename(__file__))
 
-    def _data_dict(self, result, playbook):
-        return {
-            "stack": True,
-            "ansible_user": getpass.getuser(),
-            "ansible_initiator": socket.getfqdn(),
-
-            "ansible_data": vars(result),
-            "ansible_result": result._result,
-            "ansible_task": result._task,
-            "ansible_host": result._host.get_name(),
-            "ansible_host_data": result._host.serialize(),
-        }
+    def _set_extra(self, result, scope, playbook):
+      scope.set_extra('ansible_user', getpass.getuser())
+      scope.set_extra('ansible_initiator', socket.getfqdn())
+      scope.set_context('ansible_data', vars(result))
+      scope.set_context('ansible_result', result._result)
+      scope.set_extra('ansible_task', result._task)
+      scope.set_extra('ansible_host', result._host.get_name())
+      scope.set_context('ansible_host_data', result._host.serialize())
 
     def v2_playbook_on_start(self, playbook):
-        self.playbook = playbook._file_name
+        self._playbook_path = playbook._file_name
+        self._playbook_name = os.path.splitext(os.path.basename(self._playbook_path))[0]
+        sentry_sdk.add_breadcrumb(
+          category='playbook',
+          message=self._playbook_name,
+          level='info',
+        )
+
+    def v2_playbook_on_play_start(self, play):
+        self._play_name = play.get_name()
+        sentry_sdk.add_breadcrumb(
+          category='play',
+          message=self._play_name,
+          level='info',
+        )
+
+    def v2_runner_on_ok(self, result):
+        sentry_sdk.add_breadcrumb(
+          category='ok',
+          message=result._task,
+          level='info'
+        )
+
+    def v2_runner_on_skipped(self, result):
+        sentry_sdk.add_breadcrumb(
+          category='skip',
+          message=result._task,
+          level='info'
+        )
+
+    def v2_playbook_on_include(self, included_file):
+        sentry_sdk.add_breadcrumb(
+          category='include',
+          message=included_file,
+          level='info'
+        )
+
+    def v2_playbook_on_task_start(self, task, is_conditional):
+        sentry_sdk.add_breadcrumb(
+          category='task',
+          message=task._task,
+          level='info'
+        )
+
+    def _log_error(self, result, ignore_errors=False):
+        with sentry_sdk.push_scope() as scope:
+          self._set_extra(result, scope, self._playbook_name)
+          sentry_sdk.capture_message(result._task, 'fatal')
+          client = sentry_sdk.Hub.current.client
+          if client is not None:
+            client.close(timeout=4.0)
 
     def v2_runner_on_failed(self, result, ignore_errors=False):
-        extra = self._data_dict(result, self.playbook)
-        self.logger.error('Ansible {} - Task execution FAILED; Host: {}; Message: {}'.format(
-            self.playbook, result._host.get_name(), self._dump_results(result._result)), extra=extra)
+      self._log_error(result)
 
     def v2_runner_on_unreachable(self, result):
-        extra = self._data_dict(result, self.playbook)
-        self.logger.error('Ansible {} - Task execution UNREACHABLE; Host: {}; Message: {}'.format(
-            self.playbook, result._host.get_name(), self._dump_results(result._result)), extra=extra)
+      self._log_error(result)
 
     def v2_runner_on_async_failed(self, result):
-        extra = self._data_dict(result, self.playbook)
-        self.logger.error('Ansible {} - Task async execution FAILED; Host: {}; Message: {}'.format(
-            self.playbook, result._host.get_name(), self._dump_results(result._result)), extra=extra)
+        self._log_error(result)
 
     def v2_runner_item_on_failed(self, result):
-        extra = self._data_dict(result, self.playbook)
-        self.logger.error('Ansible {} - Task execution FAILED; Host: {}; Message: {}'.format(
-            self.playbook, result._host.get_name(), self._dump_results(result._result)), extra=extra)
+        self._log_error(result)
