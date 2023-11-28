@@ -66,6 +66,9 @@
     upgrade_all: true
   environment:
     PATH: "{{ ('/home/linuxbrew/.linuxbrew/bin:' if ansible_system == 'Linux' else '') + ansible_env.PATH }}"
+  when:
+    - package.when | default(true)
+    - ansible_os_family == 'Darwin'
 
 # @action Installs Homebrew packages
 # Installs a configurable list of Homebrew casks on macOS (via the `homebrew_casks` variable)
