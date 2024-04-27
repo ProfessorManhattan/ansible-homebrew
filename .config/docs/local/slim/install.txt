@@ -1,4 +1,0 @@
-install:software:jq
-install:npm:commitlint
-install:npm:commitizen
-install:npm:husky
